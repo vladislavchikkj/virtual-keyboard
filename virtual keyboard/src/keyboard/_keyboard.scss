@@ -1,0 +1,95 @@
+.keyboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+}
+
+.keyboard-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.keyboard-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-width: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f3f3f3;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.keyboard-button:hover {
+  background-color: #ededed;
+  border-color: #a3a3a3;
+}
+
+.keyboard-button:active {
+  background-color: #dedede;
+  border-color: #a3a3a3;
+}
+
+.keyboard-button-space {
+  min-width: 80px;
+}
+
+.keyboard-button-control {
+  background-color: #e5e5e5;
+  border-color: #bebebe;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.keyboard-button-control:hover,
+.keyboard-button-control:active {
+  background-color: #d8d8d8;
+  border-color: #a3a3a3;
+}
+
+.keyboard-button-arrow {
+  background-color: #e5e5e5;
+  border-color: #bebebe;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.keyboard-button-arrow:hover,
+.keyboard-button-arrow:active {
+  background-color: #d8d8d8;
+  border-color: #a3a3a3;
+}
+
+.keyboard-button-letter {
+  text-transform: uppercase;
+}
+
+.keyboard-button-modifier {
+  color: #0078d7;
+  font-weight: bold;
+}
+
+.keyboard-button-modifier:hover {
+  background-color: #e5f4ff;
+  border-color: #0078d7;
+  color: #0078d7;
+}
+
+.keyboard-button-modifier:active {
+  background-color: #cce2ff;
+  border-color: #0078d7;
+  color: #0078d7;
+}

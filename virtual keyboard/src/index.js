@@ -1,4 +1,8 @@
 import "./index.html";
 import "./index.scss";
+import renderKeyboard from "./keyboard/keyboard";
 
-console.log(123);
+const virtualKeyboard = () => {
+  renderKeyboard();
+};
+virtualKeyboard();
