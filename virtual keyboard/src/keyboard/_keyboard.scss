@@ -43,7 +43,7 @@
 }
 
 .keyboard__button--shift {
-  width: calc((100% / 14) * 2 + 5px);
+  width: calc(6.285714% + 10px);
 }
 
 .keyboard__button--backspace {
@@ -51,11 +51,14 @@
 }
 
 .keyboard__button--enter {
-  width: calc((100% / 14) * 3 + 10px);
+  width: calc((70% / 14) * 3 + 10px);
 }
 
 .keyboard__button--space {
   width: calc((100% / 24) * 9 + 20px);
+}
+.keyboard__button--capsLock {
+  width: calc((25% / 24) * 9 + 20px);
 }
 
 .keyboard__button--pressed {
@@ -99,4 +102,7 @@
 
 .keyboard__button--pressed {
   background-color: #aaa;
+}
+.pressed {
+  background-color: #777777 !important;
 }

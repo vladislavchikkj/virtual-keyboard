@@ -1,37 +1,37 @@
 export const russianKeyboardButtons = [
   // Ряд 1
-  ["ё1234567890-=", { key: "Backspace", type: "control" }],
+  ["ё1234567890-=", { key: "Backspace", type: "backspace" }],
 
   // Ряд 2
-  [{ key: "Tab", type: "control" }, "йцукенгшщзхъ\\"],
+  [{ key: "Tab", type: "tab" }, "йцукенгшщзхъ\\"],
 
   // Ряд 3
   [
-    { key: "CapsLock", type: "control" },
+    { key: "CapsLock", type: "capslock" },
 
     "фывапролджэ",
-    { key: "Enter", type: "control" },
+    { key: "Enter", type: "enter" },
   ],
 
   // Ряд 4
   [
-    { key: "Shift", type: "control" },
+    { key: "Shift", type: "shift-left" },
     "ячсмитьбю.",
-    { key: "▲", type: "arrow" },
-    { key: "Shift", type: "control" },
+    { key: "▲", type: "arrowTop" },
+    { key: "Shift", type: "shift" },
   ],
 
   // Ряд 5
   [
-    { key: "Control", type: "control" },
-    { key: "Win", type: "control" },
-    { key: "Alt", type: "control" },
+    { key: "Ctrl", type: "control-left" },
+    { key: "Win", type: "win" },
+    { key: "Alt", type: "alt-left" },
     { key: " ", type: "space" },
-    { key: "Alt", type: "control" },
-    { key: "Control", type: "control" },
-    { key: "◄", type: "arrow" },
-    { key: "▼", type: "arrow" },
-    { key: "►", type: "arrow" },
+    { key: "Alt", type: "alt" },
+    { key: "Ctrl", type: "control" },
+    { key: "◄", type: "arrowLeft" },
+    { key: "▼", type: "arrowDown" },
+    { key: "►", type: "arrowRight" },
   ],
 ];
 
@@ -39,35 +39,34 @@ export const englishKeyboardButtons = [
   [
     // Ряд 1
     "`1234567890-=",
-    { key: "Backspace", type: "control" },
+    { key: "Backspace", type: "backspace" },
   ],
   [
     // Ряд 2
-    { key: "Tab", type: "control" },
+    { key: "Tab", type: "tab" },
     "qwertyuiop[]\\",
   ],
   [
     // Ряд 3
-    { key: "CapsLock", type: "control" },
-    { key: "a", shiftKey: "A" },
-    "sdfghjkl;'",
-    { key: "Enter", type: "control" },
+    { key: "CapsLock", type: "capslock" },
+    "asdfghjkl;'",
+    { key: "Enter", type: "enter" },
   ],
   [
     // Ряд 4
-    { key: "Shift", type: "control" },
+    { key: "Shift", type: "shift-left" },
     "zxcvbnm,./",
     { key: "▲", type: "arrowUp" },
-    { key: "Shift", type: "control" },
+    { key: "Shift", type: "shift" },
   ],
   [
     // Ряд 5
-    { key: "Control", type: "control" },
-    { key: "Win", type: "control" },
-    { key: "Alt", type: "control" },
+    { key: "Ctrl", type: "control-left" },
+    { key: "Win", type: "win" },
+    { key: "Alt", type: "alt-left" },
     { key: " ", type: "space" },
-    { key: "Alt", type: "control" },
-    { key: "Control", type: "control" },
+    { key: "Alt", type: "alt" },
+    { key: "Ctrl", type: "control" },
     { key: "◄", type: "arrowLeft" },
     { key: "▼", type: "arrowDown" },
     { key: "►", type: "arrowRight" },

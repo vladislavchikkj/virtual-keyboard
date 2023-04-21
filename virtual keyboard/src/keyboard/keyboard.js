@@ -20,15 +20,25 @@ const renderKeyboard = () => {
     if (event.target.tagName !== "BUTTON") return;
 
     const { textContent } = event.target;
-    if (textContent === "Backspace") {
-      textField.value = textField.value.slice(0, -1);
-    } else if (textContent === "Enter") {
-      textField.value += "\n";
-    } else if (textContent === "Space") {
-      textField.value += " ";
-    } else {
-      textField.value += textContent;
-    }
+    const keyboardButtonActions = {
+      backspace: () => (textField.value = textField.value.slice(0, -1)),
+      enter: () => (textField.value += "\n"),
+      space: () => (textField.value += " "),
+      "shift-left": () => console.log("you click shift-left"),
+      shift: () => console.log("you click shift"),
+      capsLock: () => console.log("you click CapsLock"),
+      tab: () => console.log("you click Tab"),
+      win: () => console.log("you click Win"),
+      "control-left": () => console.log("you click Ctrl-Left"),
+      "alt-left": () => console.log("you click Alt-Left"),
+      control: () => console.log("you click Ctrl"),
+      alt: () => console.log("you click Alt"),
+    };
+
+    const buttonAction =
+      keyboardButtonActions[event.target.getAttribute("data-name")] ??
+      (() => (textField.value += textContent));
+    buttonAction();
   }
 
   // Функция рендера кнопок клавиатуры
@@ -45,11 +55,13 @@ const renderKeyboard = () => {
           "keyboard__button",
           `keyboard__button--${btn.type}`
         );
+        btnEl.setAttribute("data-name", btn.type);
 
         if (typeof btn === "string") {
           btn.split("").forEach((char) => {
             const charBtnEl = document.createElement("button");
             charBtnEl.classList.add("keyboard__button");
+            charBtnEl.setAttribute("data-name", char);
             charBtnEl.textContent = char;
             charBtnEl.addEventListener("click", handleKeyboardButtonClick);
             rowEl.appendChild(charBtnEl);
@@ -77,24 +89,49 @@ const renderKeyboard = () => {
       keyboardButtons === buttons.russianKeyboardButtons ? "ru" : "eng";
     renderBtn();
   });
+  // обработчик смены языка комбинацией клавиш
+  function handleKeyPress(event) {
+    if (event.shiftKey && event.altKey) {
+      keyboardButtons =
+        keyboardButtons === buttons.russianKeyboardButtons
+          ? buttons.englishKeyboardButtons
+          : buttons.russianKeyboardButtons;
+      changeLang.textContent =
+        keyboardButtons === buttons.russianKeyboardButtons ? "ru" : "eng";
+      renderBtn();
+    }
+  }
+
+  document.addEventListener("keydown", handleKeyPress);
 
   // Обработчики нажатия на клавиатуре
   document.addEventListener("keydown", (event) => {
-    const keyboardButton = keyboard.querySelector(
-      `.keyboard__button[data-key="${event.key}"]`
+    console.log(event.key);
+    const keyboardChar = keyboard.querySelector(
+      `.keyboard__button[data-name="${event.key}"]`
     );
-    if (keyboardButton) {
-      keyboardButton.classList.add("keyboard__button--pressed");
-      keyboardButton.click();
+    const keyboardButton = keyboard.querySelector(
+      `.keyboard__button.keyboard__button--${event.key.toLocaleLowerCase()}`
+    );
+    if (keyboardChar) {
+      keyboardChar.classList.add("keyboard__button--pressed");
+      keyboardChar.click();
+    } else if (keyboardButton) {
+      keyboardButton.classList.add("pressed");
     }
   });
 
   document.addEventListener("keyup", (event) => {
-    const keyboardButton = keyboard.querySelector(
-      `.keyboard__button[data-key="${event.key}"]`
+    const keyboardChar = keyboard.querySelector(
+      `.keyboard__button[data-name="${event.key}"]`
     );
-    if (keyboardButton) {
-      keyboardButton.classList.remove("keyboard__button--pressed");
+    const keyboardButton = keyboard.querySelector(
+      `.keyboard__button.keyboard__button--${event.key.toLocaleLowerCase()}`
+    );
+    if (keyboardChar) {
+      keyboardChar.classList.remove("keyboard__button--pressed");
+    } else if (keyboardButton) {
+      keyboardButton.classList.remove("pressed");
     }
   });
 
