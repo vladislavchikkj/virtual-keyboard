@@ -42,22 +42,22 @@
   background-color: #555555;
 }
 
-.keyboard__button--shift {
+.keyboard__button--Shift {
   width: calc(6.285714% + 10px);
 }
 
-.keyboard__button--backspace {
+.keyboard__button--Backspace {
   width: calc((100% / 14) * 2 + 5px);
 }
 
-.keyboard__button--enter {
+.keyboard__button--Enter {
   width: calc((70% / 14) * 3 + 10px);
 }
 
-.keyboard__button--space {
+.keyboard__button--Space {
   width: calc((100% / 24) * 9 + 20px);
 }
-.keyboard__button--capsLock {
+.keyboard__button--CapsLock {
   width: calc((25% / 24) * 9 + 20px);
 }
 
@@ -86,7 +86,7 @@
 .change-lang-btn {
   width: 50px;
   height: 25px;
-  background: #9c9c9c;
+  background: #c5c5c5;
   border: none;
   border-radius: 5px;
   cursor: pointer;
