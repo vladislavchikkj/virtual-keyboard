@@ -15,6 +15,36 @@ const renderKeyboard = () => {
   const keyboard = document.createElement("div");
   keyboard.classList.add("keyboard");
 
+  // Функция рендера кнопок клавиатуры
+  function renderBtn() {
+    keyboard.innerHTML = "";
+
+    keyboardButtons.forEach((row) => {
+      const rowEl = document.createElement("div");
+      rowEl.classList.add("keyboard__row");
+
+      row.forEach((btn) => {
+        const btnEl = document.createElement("button");
+        btnEl.classList.add(
+          "keyboard__button",
+          `keyboard__button--${btn.code}`,
+          `${btn.type}`
+        );
+        btnEl.setAttribute("data-name", btn.code);
+        if ("shift" in btn) {
+          btnEl.classList.add(`shift`);
+        }
+        btnEl.textContent = btn.key;
+        btnEl.addEventListener("click", handleKeyboardButtonClick);
+        rowEl.appendChild(btnEl);
+      });
+
+      keyboard.appendChild(rowEl);
+    });
+  }
+
+  renderBtn();
+
   // Функция обработчика нажатия на кнопки клавиатуры
   function handleKeyboardButtonClick(event) {
     if (event.target.tagName !== "BUTTON") return;
@@ -24,9 +54,39 @@ const renderKeyboard = () => {
       Backspace: () => (textField.value = textField.value.slice(0, -1)),
       Enter: () => (textField.value += "\n"),
       Space: () => (textField.value += " "),
-      ShiftLeft: () => console.log("you click shift-left"),
+      ShiftLeft: () => {
+        const shiftButtons = document.querySelectorAll(".shift");
+        let shiftArr = [];
+        keyboardButtons.forEach((row) => {
+          row.forEach((btn) => {
+            if ("shift" in btn) {
+              shiftArr.push(btn.shift);
+            }
+          });
+        });
+        for (let i = 0; i < shiftButtons.length; i++) {
+          shiftButtons[i].innerHTML = shiftArr[i];
+        }
+      },
       ShiftRight: () => console.log("you click ShiftRight"),
-      CapsLock: () => console.log("you click CapsLock"),
+      CapsLock: () => {
+        const capsElements = document.querySelectorAll(".symbol");
+        const capsLockBtn = document.querySelector(
+          ".keyboard__button--CapsLock"
+        );
+        if (capsLockBtn.classList.contains("Up")) {
+          capsElements.forEach((symbol) => {
+            symbol.innerHTML = symbol.innerHTML.toLowerCase();
+            capsLockBtn.classList.remove("Up");
+          });
+          renderBtn();
+        } else {
+          capsElements.forEach((symbol) => {
+            symbol.innerHTML = symbol.innerHTML.toUpperCase();
+            capsLockBtn.classList.add("Up");
+          });
+        }
+      },
       Tab: () => (textField.value += "  "),
       MetaLeft: () => console.log("you click Win"),
       ControlLeft: () => console.log("you click Ctrl-Left"),
@@ -40,32 +100,6 @@ const renderKeyboard = () => {
       (() => (textField.value += textContent));
     buttonAction();
   }
-
-  // Функция рендера кнопок клавиатуры
-  function renderBtn() {
-    keyboard.innerHTML = "";
-
-    keyboardButtons.forEach((row) => {
-      const rowEl = document.createElement("div");
-      rowEl.classList.add("keyboard__row");
-
-      row.forEach((btn) => {
-        const btnEl = document.createElement("button");
-        btnEl.classList.add(
-          "keyboard__button",
-          `keyboard__button--${btn.code}`
-        );
-        btnEl.setAttribute("data-name", btn.code);
-        btnEl.textContent = btn.key;
-        btnEl.addEventListener("click", handleKeyboardButtonClick);
-        rowEl.appendChild(btnEl);
-      });
-
-      keyboard.appendChild(rowEl);
-    });
-  }
-
-  renderBtn();
 
   // Обработчик нажатия на кнопку смены языка
   changeLang.addEventListener("click", () => {
@@ -94,16 +128,22 @@ const renderKeyboard = () => {
 
   // Обработчики нажатия на клавиатуре
   document.addEventListener("keydown", (event) => {
+    textField.blur();
     const keyboardButton = keyboard.querySelector(
       `.keyboard__button.keyboard__button--${event.code}`
     );
     if (keyboardButton) {
       keyboardButton.classList.add("pressed");
-      keyboardButton.click();
     }
     if (event.code == "Tab") {
       //tab pressed
       event.preventDefault(); // stops its action
+    }
+    if (event.code == "ShiftLeft") {
+      console.log(123);
+    }
+    if (textField !== document.activeElement) {
+      keyboardButton.click();
     }
   });
 
