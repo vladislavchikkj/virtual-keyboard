@@ -1,3 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Vina+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap");
+
+.title {
+  font-size: 30px;
+  font-family: "Vina Sans", cursive;
+  padding: 10px;
+  cursor: default;
+}
+.descr {
+  font-family: "Bruno Ace SC", cursive;
+  display: flex;
+  justify-content: center;
+}
+
 .keyboard {
   display: flex;
   flex-direction: column;
@@ -6,7 +21,7 @@
   width: 100%;
   margin: 0 auto;
   background-color: #292929;
-  border: 5px solid #c3c3c3;
+  border: 2px solid #c3c3c3;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 2px 2px 10px #888888;
@@ -66,7 +81,7 @@
 }
 .text-field {
   margin: 0 auto;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 6px;
   background-color: #7e7e7e;
   color: #000000;
@@ -85,16 +100,20 @@
 }
 .change-lang-btn {
   width: 50px;
-  height: 25px;
+  height: 30px;
   background: #c5c5c5;
   border: none;
-  border-radius: 5px;
+  border-radius: 2px;
   cursor: pointer;
   margin-top: 15px;
   margin-left: 5px;
+  font-family: "Bruno Ace SC", cursive;
+  font-weight: normal;
+  transition: all 0.5s;
 }
 .change-lang-btn:hover {
-  background: #c5c5c5;
+  background: rgb(85, 85, 85);
+  color: rgb(78, 187, 187);
 }
 
 .keyboard__button--highlighted {

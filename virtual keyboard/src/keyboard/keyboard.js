@@ -3,14 +3,36 @@ import * as buttons from "../buttons/buttons";
 
 const renderKeyboard = () => {
   // Создаем элементы и добавляем классы
+  const title = document.createElement("div");
+  title.classList.add("title");
+  title.innerHTML = "RSS Virtual Keyboard";
+
+  const descr = document.createElement("div");
+  descr.classList.add("descr");
+  descr.innerHTML = `<h3>
+  Клавиатура создана в операционной системе Windows <br>  Для переключения языка комбинация: левыe shift + alt
+</h4>`;
+
   const textField = document.createElement("textarea");
   textField.classList.add("text-field");
 
   const changeLang = document.createElement("button");
   changeLang.classList.add("change-lang-btn");
-  changeLang.textContent = "ru";
+  if (localStorage.getItem("Lang") === "ru") {
+    changeLang.textContent = "ru";
+  } else {
+    changeLang.textContent = "eng";
+  }
 
-  let keyboardButtons = buttons.russianKeyboardButtons;
+  const ruLang = buttons.russianKeyboardButtons;
+  const enLang = buttons.englishKeyboardButtons;
+  let keyboardButtons = ruLang;
+
+  if (localStorage.getItem("Lang") === "ru") {
+    keyboardButtons = ruLang;
+  } else {
+    keyboardButtons = enLang;
+  }
 
   const keyboard = document.createElement("div");
   keyboard.classList.add("keyboard");
@@ -55,44 +77,21 @@ const renderKeyboard = () => {
       Enter: () => (textField.value += "\n"),
       Space: () => (textField.value += " "),
       ShiftLeft: () => {
-        const shiftButtons = document.querySelectorAll(".shift");
-        let shiftArr = [];
-        keyboardButtons.forEach((row) => {
-          row.forEach((btn) => {
-            if ("shift" in btn) {
-              shiftArr.push(btn.shift);
-            }
-          });
-        });
-        for (let i = 0; i < shiftButtons.length; i++) {
-          shiftButtons[i].innerHTML = shiftArr[i];
-        }
+        handleShiftPress;
+        handleCapsLockPress();
       },
-      ShiftRight: () => console.log("you click ShiftRight"),
+      ShiftRight: () => {
+        handleCapsLockPress();
+      },
       CapsLock: () => {
-        const capsElements = document.querySelectorAll(".symbol");
-        const capsLockBtn = document.querySelector(
-          ".keyboard__button--CapsLock"
-        );
-        if (capsLockBtn.classList.contains("Up")) {
-          capsElements.forEach((symbol) => {
-            symbol.innerHTML = symbol.innerHTML.toLowerCase();
-            capsLockBtn.classList.remove("Up");
-          });
-          renderBtn();
-        } else {
-          capsElements.forEach((symbol) => {
-            symbol.innerHTML = symbol.innerHTML.toUpperCase();
-            capsLockBtn.classList.add("Up");
-          });
-        }
+        handleCapsLockPress();
       },
       Tab: () => (textField.value += "  "),
-      MetaLeft: () => console.log("you click Win"),
-      ControlLeft: () => console.log("you click Ctrl-Left"),
-      AltLeft: () => console.log("you click Alt-Left"),
-      ControlRight: () => console.log("you click Ctrl"),
-      AltRight: () => console.log("you click Alt"),
+      MetaLeft: () => {},
+      ControlLeft: () => {},
+      AltLeft: () => {},
+      ControlRight: () => {},
+      AltRight: () => {},
     };
 
     const buttonAction =
@@ -103,30 +102,89 @@ const renderKeyboard = () => {
 
   // Обработчик нажатия на кнопку смены языка
   changeLang.addEventListener("click", () => {
-    keyboardButtons =
-      keyboardButtons === buttons.russianKeyboardButtons
-        ? buttons.englishKeyboardButtons
-        : buttons.russianKeyboardButtons;
-    changeLang.textContent =
-      keyboardButtons === buttons.russianKeyboardButtons ? "ru" : "eng";
+    keyboardButtons = keyboardButtons === ruLang ? enLang : ruLang;
+    changeLang.textContent = keyboardButtons === ruLang ? "ru" : "eng";
     renderBtn();
+    if (keyboardButtons === ruLang) {
+      localStorage.setItem("Lang", "ru");
+    } else {
+      localStorage.setItem("Lang", "en");
+    }
   });
   // обработчик смены языка комбинацией клавиш
   function handleKeyPress(event) {
     if (event.shiftKey && event.altKey) {
-      keyboardButtons =
-        keyboardButtons === buttons.russianKeyboardButtons
-          ? buttons.englishKeyboardButtons
-          : buttons.russianKeyboardButtons;
-      changeLang.textContent =
-        keyboardButtons === buttons.russianKeyboardButtons ? "ru" : "eng";
+      keyboardButtons = keyboardButtons === ruLang ? enLang : ruLang;
+      changeLang.textContent = keyboardButtons === ruLang ? "ru" : "eng";
       renderBtn();
+      if (keyboardButtons === ruLang) {
+        localStorage.setItem("Lang", "ru");
+      } else {
+        localStorage.setItem("Lang", "en");
+      }
     }
   }
 
   document.addEventListener("keydown", handleKeyPress);
 
-  // Обработчики нажатия на клавиатуре
+  // обработчик нажатия клавиши СapsLock
+  function handleCapsLockPress() {
+    const capsElements = document.querySelectorAll(".symbol");
+    const capsLockBtn = document.querySelector(".keyboard__button--CapsLock");
+    if (capsLockBtn.classList.contains("Up")) {
+      capsElements.forEach((symbol) => {
+        symbol.innerHTML = symbol.innerHTML.toLowerCase();
+        capsLockBtn.classList.remove("Up");
+      });
+      renderBtn();
+    } else {
+      capsElements.forEach((symbol) => {
+        symbol.innerHTML = symbol.innerHTML.toUpperCase();
+        capsLockBtn.classList.add("Up");
+      });
+    }
+  }
+
+  // обработчик нажатия клавиши shift
+  function handleShiftPress() {
+    const shiftButtons = document.querySelectorAll(".shift");
+    // const shiftButton = document.querySelector(".shift");
+    let shiftArr = [];
+    keyboardButtons.forEach((row) => {
+      row.forEach((btn) => {
+        if ("shift" in btn) {
+          shiftArr.push(btn.shift);
+        }
+      });
+    });
+    for (let i = 0; i < shiftButtons.length; i++) {
+      shiftButtons[i].innerHTML = shiftArr[i];
+    }
+  }
+  document.addEventListener("keydown", (event) => {
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      handleShiftPress();
+    }
+  });
+  keyboard.addEventListener("mousedown", (event) => {
+    if (event.target.getAttribute("data-name") === "ShiftLeft") {
+      handleShiftPress();
+    }
+  });
+
+  // обработчик отжатия клавиши shift
+  function handleShiftSqueeze(event) {
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      renderBtn();
+    }
+    if (event.target.getAttribute("data-name") === "ShiftLeft") {
+      renderBtn();
+    }
+  }
+  document.addEventListener("keyup", handleShiftSqueeze);
+  keyboard.addEventListener("mouseup", handleShiftSqueeze);
+
+  // Обработчики нажатия кнопок на клавиатуре
   document.addEventListener("keydown", (event) => {
     textField.blur();
     const keyboardButton = keyboard.querySelector(
@@ -135,12 +193,13 @@ const renderKeyboard = () => {
     if (keyboardButton) {
       keyboardButton.classList.add("pressed");
     }
-    if (event.code == "Tab") {
+    if (
+      event.code === "Tab" ||
+      event.code === "AltLeft" ||
+      event.code === "AltRight"
+    ) {
       //tab pressed
       event.preventDefault(); // stops its action
-    }
-    if (event.code == "ShiftLeft") {
-      console.log(123);
     }
     if (textField !== document.activeElement) {
       keyboardButton.click();
@@ -157,7 +216,7 @@ const renderKeyboard = () => {
   });
 
   // Добавляем элементы на страницу
-  document.body.append(textField, keyboard, changeLang);
+  document.body.append(title, textField, keyboard, changeLang, descr);
 };
 
 export default renderKeyboard;
