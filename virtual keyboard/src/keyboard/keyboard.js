@@ -57,14 +57,14 @@ const renderKeyboard = () => {
           btnEl.classList.add(`shift`);
         }
         btnEl.textContent = btn.key;
-        btnEl.addEventListener("click", handleKeyboardButtonClick);
         rowEl.appendChild(btnEl);
       });
 
       keyboard.appendChild(rowEl);
     });
-  }
 
+    keyboard.addEventListener("click", handleKeyboardButtonClick);
+  }
   renderBtn();
 
   // Функция обработчика нажатия на кнопки клавиатуры
@@ -77,7 +77,6 @@ const renderKeyboard = () => {
       Enter: () => (textField.value += "\n"),
       Space: () => (textField.value += " "),
       ShiftLeft: () => {
-        handleShiftPress;
         handleCapsLockPress();
       },
       ShiftRight: () => {
@@ -201,7 +200,7 @@ const renderKeyboard = () => {
       //tab pressed
       event.preventDefault(); // stops its action
     }
-    if (textField !== document.activeElement) {
+    if (textField !== document.activeElement && keyboardButton) {
       keyboardButton.click();
     }
   });
