@@ -147,7 +147,6 @@ const renderKeyboard = () => {
   // обработчик нажатия клавиши shift
   function handleShiftPress() {
     const shiftButtons = document.querySelectorAll(".shift");
-    // const shiftButton = document.querySelector(".shift");
     let shiftArr = [];
     keyboardButtons.forEach((row) => {
       row.forEach((btn) => {
